@@ -1,45 +1,57 @@
-# Career GPT (MVP)
+# Career Compass
 
-A starter project for an AI Career Guidance web app with:
-- **Backend**: Flask + MySQL (JWT auth, profiles, careers, questionnaire, naive recommendations)
-- **Frontend**: Simple HTML/CSS/JS for testing the API
-- **DB**: MySQL schema and sample seed data
+## Overview
 
-> AI model is deliberately **not** included yet. You can integrate it later (e.g., in `backend/routes/recommendations.py`).
+Career Compass is a career guidance platform designed to help students make informed decisions about university courses and potential career paths.
 
-## Quick Start
+The platform uses a combination of academic information, interests, and career preferences to provide personalized recommendations and guidance.
 
-### 1) MySQL
-- Create DB and tables:
-  ```sql
-  SOURCE db/schema.sql;
-  SOURCE db/seed.sql;
-  ```
+## Problem Statement
 
-### 2) Backend
-- Create virtual env, install deps:
-  ```bash
-  cd backend
-  python -m venv .venv
-  . .venv/bin/activate  # Windows: .venv\Scripts\activate
-  pip install -r requirements.txt
-  cp .env.example .env  # then edit values to match your MySQL
-  python app.py
-  ```
-- Health check: `GET http://127.0.0.1:5000/api/health`
+Students often have difficulty determining which university courses and career paths align with their academic strengths, interests, and long-term goals.
 
-### 3) Frontend
-- Open `frontend/index.html` in your browser.
-- Sequence:
-  1. Register → Login
-  2. Seed careers + Seed questionnaire
-  3. Fill profile (KCSE mean grade + interests) → Save
-  4. Get Recommendations
+Career Compass aims to simplify this process by providing students with personalized career and university course recommendations through a digital platform.
 
-## Where to add AI later
-- Replace the naive logic in `backend/routes/recommendations.py` with:
-  - A trained model loaded from `models/` or a service endpoint.
-  - Use questionnaire responses + KCSE + interests as features.
+## Key Features
 
-## Notes
-- Security hardening and validation are still minimal — for MVP only.
+* Student profile and academic information
+* Career and course recommendations
+* Interest-based career guidance
+* University course exploration
+* Personalized recommendations
+* AI-assisted career guidance
+
+## Technologies
+
+* Python
+* Flask
+* MySQL
+* HTML
+* CSS
+* JavaScript
+* Generative AI
+
+## My Role
+
+**Developer / Project Team Member**
+
+Contributed to the design and development of the Career Compass platform, including the career recommendation concept, system functionality, and implementation.
+
+## Project Context
+
+Career Compass was developed as a university project focused on using technology to improve career and university-course decision-making for students.
+
+The project was subsequently used as a career guidance solution for students joining Strathmore University.
+
+## Future Improvements
+
+* Integration with additional university and course databases
+* More advanced AI-powered recommendations
+* User authentication and profiles
+* Expanded career-path information
+* Analytics dashboard for students and administrators
+* Mobile application
+
+## Disclaimer
+
+This project is intended as an educational and career-guidance tool. Recommendations should be considered alongside advice from qualified career professionals and other relevant sources.
