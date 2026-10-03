@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Compass | Course Recommendations</title>
+    <meta name="description" content="Get AI-powered university & TVET course recommendations based on your KCSE grade, interests, and job market.">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --secondary: #6366f1;
+            --accent: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --bg: #f8fafc;
+            --white: #ffffff;
+            --card-shadow: 0 12px 30px rgba(0,0,0,0.08);
+            --transition: all 0.3s ease;
+            --border-radius: 20px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #f1f5f9 0%, #e0e7ff 100%); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+        html { scroll-behavior: smooth; }
+
+        /* Header */
+        header { background: rgba(79, 70, 229, 0.97); backdrop-filter: blur(12px); color: white; padding: 18px 5%; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        .header-container { display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; }
+        .logo { display: flex; align-items: center; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 28px; color: white; text-decoration: none; }
+        .logo i { margin-right: 10px; font-size: 32px; background: linear-gradient(135deg, #a78bfa, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        nav { display: flex; gap: 32px; }
+        nav a { color: rgba(255,255,255,0.9); text-decoration: none; font-weight: 500; font-size: 16px; position: relative; transition: var(--transition); }
+        nav a::after { content: ''; position: absolute; bottom: -6px; left: 0; width: 0; height: 2px; background: white; transition: var(--transition); }
+        nav a:hover { color: white; } nav a:hover::after { width: 100%; }
+        .mobile-menu { display: none; font-size: 24px; cursor: pointer; color: white; }
+
+        /* Hero */
+        .hero { background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%); color: white; padding: 100px 5% 80px; text-align: center; position: relative; overflow: hidden; }
+        .hero::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 300"><path d="M0,100 C200,300 800,0 1000,150 L1000,300 L0,300 Z" fill="rgba(255,255,255,0.1)"/></svg>') no-repeat bottom; background-size: cover; opacity: 0.15; }
+        .hero-content { max-width: 900px; margin: 0 auto; position: relative; z-index: 2; }
+        .hero h1 { font-family: 'Poppins', sans-serif; font-size: clamp(2.5rem, 7vw, 3.5rem); font-weight: 700; margin-bottom: 16px; line-height: 1.1; }
+        .hero p { font-size: 1.2rem; opacity: 0.95; max-width: 700px; margin: 0 auto 32px; }
+
+        /* Filter Bar */
+        .ai-controls { max-width: 1200px; margin: -60px auto 0; padding: 30px 5%; display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; align-items: center; background: white; border-radius: 16px; box-shadow: var(--card-shadow); position: relative; z-index: 10; }
+        .filter-group { display: flex; align-items: center; gap: 12px; font-weight: 500; color: var(--text); min-width: 160px; }
+        .filter-group label { white-space: nowrap; font-weight: 600; font-size: 0.95rem; }
+        select { padding: 10px 16px; border: 2px solid #e2e8f0; border-radius: 12px; background: white; font-size: 15px; outline: none; transition: var(--transition); min-width: 160px; cursor: pointer; }
+        select:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1); }
+        .generate-btn { display: inline-flex; align-items: center; gap: 10px; background: var(--primary); color: white; padding: 12px 28px; border-radius: 12px; font-weight: 600; box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3); transition: var(--transition); cursor: pointer; border: none; font-size: 16px; }
+        .generate-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(79, 70, 229, 0.4); }
+
+        /* Tabs */
+        .tabs { display: flex; justify-content: center; gap: 12px; margin: 60px 0 40px; }
+        .tab { padding: 12px 32px; background: #e2e8f0; color: var(--text); border-radius: 50px; font-weight: 600; cursor: pointer; transition: var(--transition); }
+        .tab.active { background: var(--primary); color: white; }
+
+        /* Results Grid */
+        .recommendation-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 28px; max-width: 1400px; margin: 0 auto; padding: 0 5%; }
+        .career-card { background: var(--white); border-radius: var(--border-radius); overflow: hidden; box-shadow: var(--card-shadow); transition: var(--transition); position: relative; border: 1px solid #e2e8f0; }
+        .career-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: linear-gradient(90deg, var(--primary), var(--secondary)); transform: scaleX(0); transform-origin: left; transition: var(--transition); }
+        .career-card:hover { transform: translateY(-12px); box-shadow: 0 20px 40px rgba(0,0,0,0.12); }
+        .career-card:hover::before { transform: scaleX(1); }
+        .card-header { padding: 24px 24px 0; display: flex; justify-content: space-between; align-items: flex-start; }
+        .career-info h3 { font-size: 1.5rem; font-weight: 600; color: #1e1b4b; margin-bottom: 6px; }
+        .career-info p { color: #6366f1; font-weight: 600; font-size: 0.95rem; }
+        .match-score { background: linear-gradient(135deg, #a78bfa, #ec4899); color: white; padding: 8px 14px; border-radius: 30px; font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(167, 139, 250, 0.3); }
+
+        .card-body { padding: 16px 24px 24px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 14px; margin-bottom: 20px; }
+        .stat { text-align: center; padding: 12px; background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0; }
+        .stat-label { font-size: 0.8rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+        .stat-value { font-size: 1.1rem; font-weight: 600; color: var(--text); }
+        .stat-value.positive { color: var(--accent); }
+
+        .reason-box { background: #ecfdf5; border: 1px solid #86efac; color: #166534; padding: 12px 16px; border-radius: 12px; font-size: 0.92rem; margin: 16px 0; font-weight: 500; }
+
+        .card-actions { display: flex; gap: 12px; }
+        .btn { flex: 1; padding: 14px; border-radius: 12px; font-weight: 600; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px; transition: var(--transition); font-size: 15px; cursor: pointer; border: none; }
+        .btn-primary { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3); }
+        .btn-secondary { background: #f1f5f9; color: var(--text); border: 2px solid #e2e8f0; }
+        .btn-secondary:hover { background: #e2e8f0; transform: translateY(-2px); }
+
+        footer { background: #0f172a; color: #94a3b8; padding: 60px 5% 30px; margin-top: 100px; }
+        .footer-content { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 40px; }
+        .footer-column h3 { color: white; margin-bottom: 20px; font-size: 1.2rem; }
+        .footer-column a { color: #94a3b8; text-decoration: none; transition: var(--transition); display: block; margin-bottom: 8px; }
+        .footer-column a:hover { color: white; }
+        .social-links { display: flex; gap: 16px; margin-top: 16px; }
+        .social-links a { width: 40px; height: 40px; border-radius: 50%; background: #1e293b; display: flex; align-items: center; justify-content: center; transition: var(--transition); }
+        .social-links a:hover { background: var(--primary); transform: translateY(-3px); }
+        .footer-bottom { text-align: center; padding-top: 30px; border-top: 1px solid #1e293b; color: #64748b; font-size: 0.9rem; }
+
+        @media (max-width: 992px) { .ai-controls { margin-top: -40px; flex-direction: column; } }
+        @media (max-width: 768px) { nav { display: none; position: absolute; top: 100%; left: 0; width: 100%; background: var(--primary); flex-direction: column; padding: 20px 5%; } nav.active { display: flex; } .mobile-menu { display: block; } }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <a href="home.html" class="logo"><i class="fas fa-compass"></i> Career Compass</a>
+            <nav id="nav-menu">
+                <a href="home.html">Home</a>
+                <a href="#features">Features</a>
+                <a href="chat.html">AI Chat</a>
+                <a href="recommendations.html">Recommendations</a>
+                <a href="feedback.html">Feedback</a>
+                <a href="profile.html">Profile</a>
+                <a href="login.html">Logout</a>
+            </nav>
+            <div class="mobile-menu" id="mobile-menu"><i class="fas fa-bars"></i></div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Find Personalized Course Recommendations</h1>
+            <p>Get university & diploma courses recommendations based on your KCSE grade.</p>
+        </div>
+    </section>
+
+    <!-- Filter Bar -->
+    <div class="ai-controls">
+        <div class="filter-group"><label for="grade">KCSE Grade:</label>
+            <select id="grade">
+                <option value="">Select Grade</option>
+                <option>A</option><option>A-</option><option>B+</option><option>B</option><option>B-</option>
+                <option>C+</option><option>C</option><option>C-</option><option>D+</option><option>D</option><option>E</option>
+            </select>
+        </div>
+        <div class="filter-group"><label for="field">Field:</label>
+            <select id="field">
+                <option value="">Program Type</option>
+                <option>Medicine</option><option>Engineering</option><option>Law</option>
+                <option>Computer Science</option><option>Business</option><option>Education</option>
+                <option>Architecture</option><option>Agriculture</option><option>Arts & Design</option>
+                <option>Hospitality</option><option>Environmental Science</option>
+            </select>
+        </div>
+        <div class="filter-group"><label for="level">Program:</label>
+            <select id="level">
+                <option value="Degree">Degree</option>
+                <option value="Diploma">Diploma</option>
+                <option value="Certificate">Certificate</option>
+            </select>
+        </div>
+        <button class="generate-btn" onclick="getRecommendations()">
+            <i class="fas fa-sparkles"></i> Find My Path
+        </button>
+    </div>
+
+    <!-- Tabs + Results -->
+    <section class="ai-recommendations">
+        <div class="tabs">
+            <div class="tab active" onclick="showTab('public')">Public Universities</div>
+            <div class="tab" onclick="showTab('private')">Private Universities</div>
+        </div>
+
+        <div id="recList" class="recommendation-grid">
+            <p style="grid-column: 1 / -1; text-align:center; padding:80px; color:var(--text-light); font-size:1.3rem;">
+                Enter your KCSE grade and click <strong>“Find My Path”</strong> to see your personalized recommendations
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column"><h3>Career Compass</h3><p>Empowering Kenyan youth with AI-driven career guidance.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+            <div class="footer-column"><h3>Students</h3>
+                <a href="chat.html">AI Career Coach</a>
+                <a href="recommendations.html">Course Recommendations</a>
+                <a href="profile.html">My Profile</a>
+            </div>
+            <div class="footer-column"><h3>Resources</h3>
+                <a href="#">KUCCPS Guide</a>
+                <a href="#">Scholarships</a>
+                <a href="#">HELB Loans</a>
+            </div>
+            <div class="footer-column"><h3>Support</h3>
+                <a href="#">Help Center</a>
+                <a href="#">Contact Us</a>
+                <a href="#">Privacy Policy</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Career Compass Kenya. All rights reserved. | Made with love in Nairobi</p>
+        </div>
+    </footer>
+
+<script>
+    function getRecommendations() {
+        const grade = document.getElementById('grade').value.trim();
+        const field = document.getElementById('field').value.trim() || "let ai predict";
+        const level = document.getElementById('level').value;
+        const list = document.getElementById('recList');
+
+        if (!grade) {
+            list.innerHTML = `<p style="grid-column:1/-1;text-align:center;color:#f59e0b;padding:80px;font-size:1.4rem;">
+                Please select your KCSE grade first
+            </p>`;
+            return;
+        }
+
+        list.innerHTML = `<p style="grid-column:1/-1;text-align:center;padding:120px;">
+            <i class="fas fa-spinner fa-spin fa-4x" style="color:var(--primary);"></i><br><br>
+            <strong>Analyzing your profile and finding the best courses in Kenya...</strong>
+        </p>`;
+
+        fetch('/api/recommend', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({ grade, field, level })
+        })
+        .then(r => r.json())
+        .then(res => {
+            if (!res.success) {
+                list.innerHTML = `<p style="grid-column:1/-1;text-align:center;color:#ef4444;padding:80px;font-size:1.3rem;">
+                    Error: ${res.error || "Something went wrong"}
+                </p>`;
+                return;
+            }
+
+            const data = res.data;
+            list.innerHTML = '';
+
+            if (data.note) {
+                list.innerHTML += `<div style="grid-column:1/-1;text-align:center;padding:20px;">
+                    <div style="display:inline-block;background:#fffbeb;padding:16px;border-radius:12px;border:2px solid #f59e0b;color:#92400e;font-weight:600;">
+                        ${data.note}
+                    </div>
+                </div>`;
+            }
+
+            const allCourses = [...(data.public || []), ...(data.private || [])];
+            if (allCourses.length === 0) {
+                list.innerHTML = `<p style="grid-column:1/-1;text-align:center;padding:100px;color:#64748b;font-size:1.3rem;">
+                    No courses found. Try a different field or lower program level.
+                </p>`;
+                return;
+            }
+
+            allCourses.forEach((c, i) => {
+                setTimeout(() => {
+                    const card = document.createElement('div');
+                    card.className = 'career-card';
+                    card.dataset.type = c.type.includes('Public') ? 'public' : 'private'; // ← KEY FIX
+
+                    card.innerHTML = `
+                        <div class="card-header">
+                            <div class="career-info">
+                                <h3>${c.program_name}</h3>
+                                <p>${c.university}</p>
+                            </div>
+                            <div class="match-score">
+                                <i class="fas fa-star"></i> ${c.match || "Strong Match"}
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="stats-grid">
+                                ${c.cutoff_points ? `
+                                <div class="stat">
+                                    <div class="stat-label">Cutoff Points</div>
+                                    <div class="stat-value positive">${c.cutoff_points}</div>
+                                </div>` : ''}
+                                <div class="stat">
+                                    <div class="stat-label">Cost/Year</div>
+                                    <div class="stat-value">${c.cost}</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-label">HELB</div>
+                                    <div class="stat-value positive">${c.helb}</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-label">Type</div>
+                                    <div class="stat-value">${c.type}</div>
+                                </div>
+                            </div>
+
+                            ${c.reason ? `<div class="reason-box">
+                                <strong>Why this fits you:</strong> ${c.reason}
+                            </div>` : ''}
+
+                            <div class="card-actions">
+                                <a href="chat.html?course=${encodeURIComponent(c.program_name)}&uni=${encodeURIComponent(c.university)}&grade=${document.getElementById('grade').value}" 
+                                   class="btn btn-primary" target="_blank">
+                                    <i class="fas fa-robot"></i> Ask AI About This
+                                </a>
+                                <a href="#" class="btn btn-secondary">Save</a>
+                            </div>
+                        </div>
+                    `;
+                    list.appendChild(card);
+                }, i * 120);
+            });
+        })
+        .catch(err => {
+            console.error(err);
+            list.innerHTML = `<p style="grid-column:1/-1;text-align:center;color:#ef4444;padding:80px;">
+                Connection failed. Please check your internet.
+            </p>`;
+        });
+    }
+
+    // FIXED TAB SWITCHING — Now 100% reliable
+    function showTab(type) {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        event.target.classList.add('active');
+
+        document.querySelectorAll('.career-card').forEach(card => {
+            const cardType = card.dataset.type; // ← Uses data-type attribute (bulletproof!)
+            if (type === 'public') {
+                card.style.display = (cardType === 'public') ? 'block' : 'none';
+            } else {
+                card.style.display = (cardType === 'private') ? 'block' : 'none';
+            }
+        });
+    }
+
+    // Auto-run on load if grade in URL
+    window.addEventListener('load', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('grade')) {
+            document.getElementById('grade').value = urlParams.get('grade');
+            getRecommendations();
+        }
+    });
+</script>
+</body>
+</html>

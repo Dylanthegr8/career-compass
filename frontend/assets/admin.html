@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Dashboard</title>
+  <script src="assets/script.js"></script>
+</head>
+<body>
+  <h1>Admin Dashboard</h1>
+  <button onclick="loadUsers()">View Users</button>
+  <button onclick="loadFeedback()">View Feedback</button>
+  <div id="adminContent"></div>
+
+<script>
+async function loadUsers(){
+  const r = await fetch(API + "/admin/users", {
+    headers: { "Authorization": "Bearer " + token }
+  });
+  const data = await r.json();
+  document.getElementById("adminContent").innerHTML =
+    "<h2>Users</h2><pre>" + JSON.stringify(data, null, 2) + "</pre>";
+}
+
+async function loadFeedback(){
+  const r = await fetch(API + "/admin/feedback", {
+    headers: { "Authorization": "Bearer " + token }
+  });
+  const data = await r.json();
+  document.getElementById("adminContent").innerHTML =
+    "<h2>Feedback</h2><pre>" + JSON.stringify(data, null, 2) + "</pre>";
+}
+</script>
+</body>
+</html>

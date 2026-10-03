@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Compass Kenya | AI Career Guidance for Kenyan Students</title>
+    <meta name="description" content="CareerGPT Kenya helps KCSE students discover university courses, TVET programs, scholarships, and career paths based on grades, interests, and Kenya's job market.">
+
+    <!-- YOUR EXACT FONTS -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --secondary: #6366f1;
+            --accent: #10b981;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --bg: #f8fafc;
+            --white: #ffffff;
+            --card-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            --transition: all 0.3s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        html { scroll-behavior: smooth; }
+
+        /* Header */
+        header {
+            background: rgba(79, 70, 229, 0.95);
+            backdrop-filter: blur(12px);
+            color: white;
+            padding: 18px 5%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 28px;
+            color: white;
+            text-decoration: none;
+        }
+        .logo i {
+            margin-right: 10px;
+            font-size: 32px;
+            background: linear-gradient(135deg, #a78bfa, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        nav { display: flex; gap: 32px; }
+        nav a {
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            position: relative;
+            transition: var(--transition);
+        }
+        nav a::after {
+            content: ''; position: absolute; bottom: -6px; left: 0; width: 0; height: 2px;
+            background: white; transition: var(--transition);
+        }
+        nav a:hover { color: white; }
+        nav a:hover::after { width: 100%; }
+        .mobile-menu { display: none; font-size: 24px; cursor: pointer; color: white; }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+            color: white;
+            padding: 140px 5% 120px;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 300"><path d="M0,100 C200,300 800,0 1000,150 L1000,300 L0,300 Z" fill="rgba(255,255,255,0.1)"/></svg>') no-repeat bottom;
+            background-size: cover;
+            opacity: 0.15;
+        }
+        .hero-content {
+            position: relative; 
+            z-index: 2;         
+        }
+        .hero h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.1;
+            background: linear-gradient(to right, #fff, #e0e7ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 32px;
+            opacity: 0.95;
+            max-width: 750px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 500;
+        }
+        .cta-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 16px 36px;
+            border-radius: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+            font-size: 17px;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-primary {
+            background: white;
+            color: var(--primary);
+            box-shadow: 0 8px 20px rgba(255,255,255,0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 14px 32px rgba(255,255,255,0.4);
+        }
+        .btn-secondary {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            backdrop-filter: blur(8px);
+        }
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.25);
+            border-color: white;
+            transform: translateY(-4px);
+        }
+
+        /* Features */
+        .features {
+            padding: 100px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .section-header h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 16px;
+        }
+        .section-header p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+        }
+        .feature-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 40px 32px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            text-align: center;
+        }
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: var(--transition);
+        }
+        .feature-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+        }
+        .feature-card:hover::before { transform: scaleX(1); }
+        .icon-wrapper {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            font-size: 36px;
+            color: white;
+        }
+        .icon-wrapper.explorer { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
+        .icon-wrapper.education { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+        .icon-wrapper.ai { background: linear-gradient(135deg, #10b981, #059669); }
+        .feature-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #1e1b4b;
+        }
+        .feature-card p {
+            color: var(--text-light);
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+        .feature-link {
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+        .feature-link:hover { gap: 12px; }
+
+        /* Stats Section */
+        .stats {
+            background: linear-gradient(135deg, #1e1b4b, #312e81);
+            color: white;
+            padding: 80px 5%;
+            text-align: center;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .stat-item h3 {
+            font-size: 3rem;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            margin-bottom: 8px;
+            background: linear-gradient(to right, #a78bfa, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .stat-item p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 100px 5%;
+            background: #f1f5f9;
+        }
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+            max-width: 1200px;
+            margin: 60px auto 0;
+        }
+        .testimonial-card {
+            background: white;
+            padding: 32px;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            position: relative;
+        }
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            font-size: 80px;
+            color: var(--primary);
+            font-family: Georgia, serif;
+            opacity: 0.2;
+        }
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 20px;
+            color: #475569;
+        }
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 18px;
+        }
+        .author-info h4 {
+            font-weight: 600;
+            color: #1e293b;
+        }
+        .author-info p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        footer {
+            background: #0f172a;
+            color: #cbd5e1;
+            padding: 60px 5% 30px;
+        }
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        .footer-column h3 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+        .footer-column ul { list-style: none; }
+        .footer-column a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: var(--transition);
+            display: block;
+            margin: 10px 0;
+        }
+        .footer-column a:hover { color: white; }
+        .social-links {
+            display: flex;
+            gap: 16px;
+            margin-top: 16px;
+        }
+        .social-links a {
+            width: 40px; height: 40px; border-radius: 50%;
+            background: #1e293b; display: flex; align-items: center; justify-content: center;
+            transition: var(--transition);
+        }
+        .social-links a:hover { background: var(--primary); transform: translateY(-3px); }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #1e293b;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav { display: none; position: absolute; top: 100%; left: 0; width: 100%; background: var(--primary); flex-direction: column; padding: 20px 5%; }
+            nav.active { display: flex; }
+            nav a { padding: 14px 0; font-size: 18px; }
+            .mobile-menu { display: block; }
+            .hero { padding: 100px 5% 80px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+   <header>
+    <div class="header-container">
+        <a href="home.html" class="logo">
+            <i class="fas fa-compass"></i> Career Compass
+        </a>
+        <nav id="nav-menu">
+            <a href="home.html">Home</a>
+            <a href="#features">Features</a>
+            <a href="chat.html">AI Chat</a>
+            <a href="recommendations.html">Recommendations</a>
+            <a href="feedback.html">Feedback</a>
+            <a href="profile.html">Profile</a>
+            <a href="login.html">Logout</a>
+
+        </nav>
+        <div class="mobile-menu" id="mobile-menu">
+            <i class="fas fa-bars"></i>
+        </div>
+    </div>
+</header>
+
+     <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Find Your Dream Career and Course After KCSE</h1>
+            <p>Get AI-powered guidance on university courses, diplomas, TVET programs, scholarships and careers tailored to your KCSE grade, interests and to Kenya's growing economy.</p>
+            <div class="cta-buttons">
+                <a href="chat.html" class="btn btn-primary">
+                    <i class="fas fa-robot"></i> Ask AI Now
+                </a>
+                <a href="#features" class="btn btn-secondary">
+                    <i class="fas fa-sparkles"></i> Explore Features
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features" id="features">
+        <div class="section-header">
+            <h2>Built for Kenyan Students</h2>
+            <p>AI tools designed to help you transition from high school to a successful career in Kenya</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="icon-wrapper explorer">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h3>KCSE Career Matcher</h3>
+                <p>AI analyzes your KCSE grade, subjects and interests to recommend university degrees, diploma courses and high-demand careers in Kenya.</p>
+                <a href="recommendations.html" class="feature-link">
+                    Find My Path <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="feature-card">
+                <div class="icon-wrapper education">
+                    <i class="fas fa-university"></i>
+                </div>
+                <h3>University, College & TVET Guide</h3>
+                <p>Discover KUCCPS cluster points, cut-off grades, fee structures, and scholarships at public/private universities and TVET colleges.</p>
+                <a href="recommendations.html" class="feature-link">
+                    View Programs <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="feature-card">
+                <div class="icon-wrapper ai">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h3>24/7 AI Career Coach</h3>
+                <p>Get instant help with KUCCPS applications, CV writing, HELB loans, interview prep and job search in English or Swahili.</p>
+                <a href="chat.html" class="feature-link">
+                    Start Chatting <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <h3>50K+</h3>
+                <p>Kenyan Students</p>
+            </div>
+            <div class="stat-item">
+                <h3>300+</h3>
+                <p>Courses Analyzed</p>
+            </div>
+            <div class="stat-item">
+                <h3>95%</h3>
+                <p>Placement Success</p>
+            </div>
+            <div class="stat-item">
+                <h3>47</h3>
+                <p>Counties Covered</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="section-header">
+            <h2>Success Stories from Kenyan Students</h2>
+            <p>Hear from Form Four graduates who found their path with Career Compass</p>
+        </div>
+
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <p class="testimonial-text">"With a B plain, Career Compass showed me I could study Software Engineering at JKUAT. Now I'm in Year 2!"</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">JO</div>
+                    <div class="author-info">
+                        <h4>Joy Omondi</h4>
+                        <p>Software Engineering @ JKUAT</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <p class="testimonial-text">"I got a C+ and thought university was impossible. AI recommended a Diploma in Nursing at KMTC now I'm a nurse in Mombasa!"</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">DM</div>
+                    <div class="author-info">
+                        <h4>David Maina</h4>
+                        <p>Nurse @ Coast General Hospital</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <p class="testimonial-text">"The AI helped me apply for KUCCPS revision and get Electrical Engineering at Kenya Poly. Best decision ever!"</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">AW</div>
+                    <div class="author-info">
+                        <h4>Aisha Wanjiku</h4>
+                        <p>Engineering Student @ Kenya Poly</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Career Compass</h3>
+                <p>Empowering Kenyan youth with AI-driven career guidance. From KCSE to career success.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-column">
+                <h3>Students</h3>
+                <ul>
+                    <li><a href="chat.html">AI Career Coach</a></li>
+                    <li><a href="recommendations.html">Course Recommendations</a></li>
+                    <li><a href="#">KUCCPS Guide</a></li>
+                    <li><a href="#">Scholarships</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Resources</h3>
+                <ul>
+                    <li><a href="#">KCSE Revision</a></li>
+                    <li><a href="#">HELB Application</a></li>
+                    <li><a href="#">Career Market Report</a></li>
+                    <li><a href="#">Success Stories</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Support</h3>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2025 Career Compass Kenya. All rights reserved. | Made with Kenya, Nairobi</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navMenu = document.getElementById('nav-menu');
+        mobileMenu.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            const icon = mobileMenu.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+    </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const greeting = document.getElementById('userGreeting');
+        const savedName = sessionStorage.getItem('userName') || localStorage.getItem('userName');
+        if (savedName) {
+            greeting.innerHTML = `Hello, <strong>${savedName.split(' ')[0]}</strong>! <a href="/logout" style="color: #fbbf24; text-decoration: none; margin-left: 8px; font-weight: 700;">Logout</a>`;
+        }
+    });
+</script>
+</body>
+</html>

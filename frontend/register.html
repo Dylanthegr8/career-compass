@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register | Career Compass Kenya</title>
+  <meta name="description" content="Join thousands of Kenyan students discovering their dream careers with AI">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-dark: #4338ca;
+      --secondary: #6366f1;
+      --text: #1e293b;
+      --text-light: #64748b;
+      --white: #ffffff;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      position: relative;
+    }
+
+    /* Full-page background decoration */
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 12px;
+      background: linear-gradient(90deg, #000000, #bb0000, #006600, var(--primary));
+      z-index: 10;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 480px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Logo – Big & Bold */
+    .logo {
+      margin-bottom: 32px;
+    }
+    .logo i {
+      font-size: 90px;
+      background: linear-gradient(135deg, #8b5cf6, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .logo-text {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 900;
+      font-size: 3.6rem;
+      color: var(--primary);
+      margin-top: 12px;
+      letter-spacing: -1px;
+    }
+
+    h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+
+    .subtitle {
+      font-size: 1.25rem;
+      color: var(--text-light);
+      margin-bottom: 48px;
+      line-height: 1.6;
+    }
+
+    .form-wrapper {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 32px;
+      padding: 48px 40px;
+      box-shadow: 0 25px 80px rgba(79,70,229,0.25);
+      border: 1px solid rgba(255,255,255,0.7);
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+      position: relative;
+    }
+    .input-wrapper {
+      position: relative;
+    }
+    .input-icon {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--primary);
+      font-size: 1.4rem;
+      z-index: 2;
+    }
+    input {
+      width: 100%;
+      padding: 20px 20px 20px 64px;
+      border: 2px solid #e2e8f0;
+      border-radius: 20px;
+      font-size: 1.1rem;
+      background: white;
+      outline: none;
+      transition: all 0.4s;
+      font-weight: 500;
+    }
+    input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 8px rgba(79,70,229,0.15);
+      transform: translateY(-2px);
+    }
+
+    .register-btn {
+      width: 100%;
+      padding: 20px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border: none;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 1.3rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin: 16px 0;
+      box-shadow: 0 15px 40px rgba(79,70,229,0.4);
+      transition: all 0.4s;
+      position: relative;
+      overflow: hidden;
+    }
+    .register-btn:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 25px 60px rgba(79,70,229,0.5);
+    }
+    .register-btn::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+      transition: 0.7s;
+    }
+    .register-btn:hover::before { left: 100%; }
+
+    .spinner {
+      width: 24px; height: 24px;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-top: 3px solid white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      display: none;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .links {
+      margin-top: 32px;
+      font-size: 1.05rem;
+    }
+    .links a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      position: relative;
+    }
+    .links a::after {
+      content: '';
+      position: absolute;
+      bottom: -6px; left: 0;
+      width: 0; height: 3px;
+      background: var(--primary);
+      transition: all 0.4s;
+    }
+    .links a:hover::after { width: 100%; }
+
+    .terms {
+      margin-top: 28px;
+      font-size: 0.9rem;
+      color: var(--text-light);
+    }
+    .terms a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- Logo & Title -->
+    <div class="logo">
+      <i class="fas fa-compass"></i>
+      <div class="logo-text"></div>
+    </div>
+
+    <h1>Create Your Account</h1>
+    <p class="subtitle">
+      Join thousands of Kenyan students discovering their dream careers with AI
+    </p>
+
+    <!-- Form Card (still has rounded style but feels part of the full page) -->
+    <div class="form-wrapper">
+      <form id="registerForm">
+        <div class="form-group">
+          <div class="input-wrapper">
+            <i class="fas fa-user input-icon"></i>
+            <input type="text" id="name" placeholder="Full Name" required autocomplete="name">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="input-wrapper">
+            <i class="fas fa-envelope input-icon"></i>
+            <input type="email" id="email" placeholder="Email Address" required autocomplete="email">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="input-wrapper">
+            <i class="fas fa-lock input-icon"></i>
+            <input type="password" id="password" placeholder="Create Password" required minlength="6">
+          </div>
+        </div>
+
+        <button type="submit" class="register-btn" id="registerBtn">
+          <span>Sign Up Free</span>
+          <div class="spinner"></div>
+        </button>
+      </form>
+
+      <div class="links">
+        Already have an account? <a href="login.html">Login here</a>
+      </div>
+
+      <div class="terms">
+        By signing up, you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('registerForm');
+    const btn = document.getElementById('registerBtn');
+    const spinner = btn.querySelector('.spinner');
+
+    form.addEventListener('submit', async e => {
+        e.preventDefault();
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+
+        if (password.length < 6) return alert("Password must be 6+ characters");
+
+        btn.disabled = true;
+        btn.querySelector('span').textContent = 'Creating Account...';
+        spinner.style.display = 'block';
+
+        const res = await fetch('/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, password })
+        });
+        const data = await res.json();
+
+        if (data.success) {
+            confetti({ particleCount: 300, spread: 100 });
+            alert(`Welcome to Career Compass, ${name.split(' ')[0]}!`);
+            setTimeout(() => window.location.href = '/login.html', 1800);
+        } else {
+            alert(data.message);
+            btn.disabled = false;
+            btn.querySelector('span').textContent = 'Sign Up Free';
+            spinner.style.display = 'none';
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback | Career Compass Kenya</title>
+  <meta name="description" content="Help us improve Career Compass Kenya – your feedback matters!">
+
+  <!-- Exact same fonts as landing page -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-dark: #4338ca;
+      --secondary: #6366f1;
+      --accent: #10b981;
+      --text: #1e293b;
+      --text-light: #64748b;
+      --bg: #f8fafc;
+      --white: #ffffff;
+      --card-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      --transition: all 0.3s ease;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    html { scroll-behavior: smooth; }
+
+    /* Top Bar – EXACT same as landing page */
+    header {
+      background: rgba(79, 70, 229, 0.95);
+      backdrop-filter: blur(12px);
+      color: white;
+      padding: 18px 5%;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 28px;
+      color: white;
+      text-decoration: none;
+    }
+    .logo i {
+      margin-right: 10px;
+      font-size: 32px;
+      background: linear-gradient(135deg, #a78bfa, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 16px;
+      font-weight: 500;
+    }
+    .avatar {
+      width: 40px;
+      height: 40px;
+      background: rgba(255,255,255,0.25);
+      backdrop-filter: blur(8px);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    /* Main Content */
+    main {
+      flex: 1;
+      padding: 80px 5% 120px;
+      max-width: 800px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .feedback-card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 48px 40px;
+      box-shadow: var(--card-shadow);
+      border: 1px solid #e2e8f0;
+      text-align: center;
+    }
+    .feedback-card h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+    .feedback-card p {
+      font-size: 1.1rem;
+      color: var(--text-light);
+      margin-bottom: 40px;
+    }
+
+    /* Star Rating – matches your style */
+    .stars {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .star {
+      font-size: 3rem;
+      color: #e2e8f0;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .star:hover, .star.active {
+      color: #f59e0b;
+      transform: scale(1.15);
+    }
+    .rating-label {
+      font-size: 1.2rem;
+      color: var(--text-light);
+      font-weight: 500;
+      margin-bottom: 32px;
+    }
+
+    /* Textarea & Button – identical to landing page */
+    textarea {
+      width: 100%;
+      padding: 18px;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      resize: vertical;
+      min-height: 140px;
+      margin-bottom: 32px;
+      transition: var(--transition);
+    }
+    textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(79,70,229,0.12);
+    }
+
+    .submit-btn {
+      padding: 16px 36px;
+      border-radius: 14px;
+      font-weight: 600;
+      font-size: 17px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: white;
+      color: var(--primary);
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(255,255,255,0.3);
+      transition: var(--transition);
+    }
+    .submit-btn:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 14px 32px rgba(255,255,255,0.4);
+    }
+    .submit-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .alert {
+      margin-top: 24px;
+      padding: 16px 24px;
+      border-radius: 14px;
+      font-weight: 500;
+    }
+    .alert-success {
+      background: #ecfdf5;
+      color: #10b981;
+      border: 1px solid #a7f3d0;
+    }
+    .alert-error {
+      background: #fef2f2;
+      color: #ef4444;
+      border: 1px solid #fecaca;
+    }
+
+    /* Footer – same as landing page */
+    footer {
+      background: #0f172a;
+      color: #cbd5e1;
+      text-align: center;
+      padding: 40px 5% 30px;
+      font-size: 0.95rem;
+    }
+    footer a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    @media (max-width: 768px) {
+      main { padding: 60px 5% 100px; }
+      .feedback-card { padding: 40px 24px; }
+      .feedback-card h1 { font-size: 2.2rem; }
+      .star { font-size: 2.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header – exactly like landing page -->
+  <header>
+    <div class="header-container">
+      <a href="index.html" class="logo">
+        <i class="fas fa-compass"></i> Career Compass
+      </a>
+      <div class="user-info">
+        <span>Feedback from <strong id="userName">Student</strong></span>
+        <div class="avatar" id="avatar">S</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Feedback Form -->
+  <main>
+    <div class="feedback-card">
+      <h1>We Value Your Feedback</h1>
+      <p>Help us improve Career Compass Kenya for all students</p>
+
+      <div class="stars">
+        <i class="far fa-star star" data-value="1"></i>
+        <i class="far fa-star star" data-value="2"></i>
+        <i class="far fa-star star" data-value="3"></i>
+        <i class="far fa-star star" data-value="4"></i>
+        <i class="far fa-star star" data-value="5"></i>
+      </div>
+      <div class="rating-label" id="ratingText">Tap a star to rate</div>
+
+      <textarea id="feedbackText" placeholder="Tell us what you loved or how we can do better... (optional)"></textarea>
+
+      <button class="submit-btn" id="submitBtn">
+        <i class="fas fa-paper-plane"></i> Submit Feedback
+      </button>
+
+      <div id="alertContainer"></div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Career Compass Kenya. All rights reserved. | Made with Kenya, Nairobi</p>
+    <p><a href="home.html">Back to Dashboard</a></p>
+  </footer>
+
+  <script>
+    const stars = document.querySelectorAll('.star');
+    const ratingText = document.getElementById('ratingText');
+    const feedbackText = document.getElementById('feedbackText');
+    const submitBtn = document.getElementById('submitBtn');
+    const alertContainer = document.getElementById('alertContainer');
+    let rating = 0;
+
+    stars.forEach(star => {
+      star.addEventListener('click', () => {
+        rating = star.getAttribute('data-value');
+        stars.forEach((s, i) => {
+          s.classList.toggle('active', i < rating);
+          s.classList.replace('far', 'fas');
+        });
+        for (let i = parseInt(rating); i < 5; i++) {
+          stars[i].classList.replace('fas', 'far');
+        }
+        updateRatingText();
+      });
+    });
+
+    function updateRatingText() {
+      const labels = ['Poor', 'Fair', 'Good', 'Very Good', 'Excellent'];
+      ratingText.textContent = `${rating} Star${rating > 1 ? 's' : ''} — ${labels[rating-1]}`;
+    }
+
+    submitBtn.addEventListener('click', async () => {
+      if (rating === 0) {
+        showAlert('Please select a star rating', 'error');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+
+      // Simulate submission (replace with your actual API)
+      setTimeout(() => {
+        showAlert('Asante! Your feedback has been received. We truly appreciate you!', 'success');
+        setTimeout(() => {
+          stars.forEach(s => { s.classList.remove('active'); s.classList.replace('fas', 'far'); });
+          feedbackText.value = '';
+          rating = 0;
+          ratingText.textContent = 'Tap a star to rate';
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Feedback';
+        }, 2500);
+      }, 1500);
+    });
+
+    function showAlert(message, type) {
+      alertContainer.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+      setTimeout(() => alertContainer.innerHTML = '', 6000);
+    }
+
+    // Auto-fill name from localStorage (optional)
+    const stored = localStorage.getItem('userName') || localStorage.getItem('userEmail');
+    if (stored) {
+      const name = stored.split('@')[0].split('.').map(n => n.charAt(0).toUpperCase() + n.slice(1)).join(' ');
+      document.getElementById('userName').textContent = name;
+      document.getElementById('avatar').textContent = name.charAt(0);
+    }
+  </script>
+</body>
+</html>

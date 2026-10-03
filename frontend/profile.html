@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Career Compass Kenya | Your Profile</title>
+  <meta name="description" content="Manage your Career Compass Kenya profile — update your KCSE grade, interests, and career journey.">
+
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-dark: #4338ca;
+      --secondary: #6366f1;
+      --accent: #10b981;
+      --warning: #f59e0b;
+      --text: #1e293b;
+      --text-light: #64748b;
+      --bg: #f8fafc;
+      --white: #ffffff;
+      --card-shadow: 0 15px 35px rgba(0,0,0,0.08);
+      --transition: all 0.3s ease;
+      --border-radius: 20px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #f1f5f9 0%, #e0e7ff 100%);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    header {
+      background: rgba(79, 70, 229, 0.97);
+      backdrop-filter: blur(12px);
+      color: white;
+      padding: 18px 5%;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 28px;
+      color: white;
+      text-decoration: none;
+    }
+    .logo i {
+      margin-right: 10px;
+      font-size: 32px;
+      background: linear-gradient(135deg, #a78bfa, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    nav { display: flex; gap: 32px; }
+    nav a {
+      color: rgba(255,255,255,0.9);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 16px;
+      position: relative;
+      transition: var(--transition);
+    }
+    nav a::after {
+      content: ''; position: absolute; bottom: -6px; left: 0; width: 0; height: 2px;
+      background: white; transition: var(--transition);
+    }
+    nav a:hover { color: white; }
+    nav a:hover::after { width: 100%; }
+    .mobile-menu { display: none; font-size: 24px; cursor: pointer; color: white; }
+
+    /* Main Profile */
+    .profile-container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 5%;
+    }
+    .profile-main {
+      background: var(--white);
+      border-radius: var(--border-radius);
+      padding: 40px;
+      box-shadow: var(--card-shadow);
+      animation: fadeInUp 0.6s ease forwards;
+      opacity: 0;
+    }
+    @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+
+    .profile-header { text-align: center; margin-bottom: 32px; }
+    .profile-pic-container { position: relative; width: 120px; height: 120px; margin: 0 auto 16px; }
+    .profile-pic {
+      width: 100%; height: 100%; border-radius: 50%;
+      background: linear-gradient(135deg, #8b5cf6, #ec4899);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 48px; color: white; font-weight: 600;
+      box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3);
+      transition: var(--transition);
+    }
+    .edit-pic-btn {
+      position: absolute; bottom: 4px; right: 4px;
+      width: 36px; height: 36px; background: var(--primary); color: white;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+      transition: var(--transition);
+    }
+    .edit-pic-btn:hover { transform: scale(1.1); background: var(--primary-dark); }
+
+    .user-name { font-size: 1.8rem; font-weight: 700; color: #1e1b4b; margin-bottom: 8px; }
+    .user-email { color: var(--text-light); font-size: 1rem; }
+
+    .section-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin: 32px 0 20px;
+    }
+    .section-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.6rem; font-weight: 700; color: #1e1b4b;
+    }
+    .edit-toggle {
+      background: #f1f5f9; color: var(--text); border: 2px solid #e2e8f0;
+      padding: 8px 16px; border-radius: 12px; font-weight: 600; font-size: 14px;
+      cursor: pointer; display: flex; align-items: center; gap: 8px;
+      transition: var(--transition);
+    }
+    .edit-toggle.active {
+      background: var(--primary); color: white; border-color: var(--primary);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .form-group label {
+      display: block; font-weight: 600; margin-bottom: 8px;
+      color: #374151; font-size: 15px;
+    }
+    .form-group input,
+    .form-group textarea {
+      width: 100%; padding: 14px 16px; border: 2px solid #e2e8f0;
+      border-radius: 14px; font-size: 15px; background: #f8fafc;
+      outline: none; transition: var(--transition); resize: vertical;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--primary); background: white;
+      box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+    }
+    .form-group input:disabled,
+    .form-group textarea:disabled {
+      background: #f1f5f9; color: var(--text-light); cursor: not-allowed;
+    }
+
+    .interests-input {
+      display: flex; flex-wrap: wrap; gap: 8px; padding: 8px;
+      border: 2px solid #e2e8f0; border-radius: 14px; background: #f8fafc;
+      min-height: 60px; align-items: center;
+    }
+    .skill-tag {
+      background: var(--primary); color: white; padding: 6px 12px;
+      border-radius: 30px; font-size: 13px; font-weight: 500;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .skill-tag.removable span {
+      margin-left: 6px; cursor: pointer; font-weight: bold; font-size: 16px;
+    }
+    .add-interest-input {
+      flex: 1; min-width: 140px; border: none; outline: none;
+      font-size: 14px; background: transparent; padding: 4px;
+    }
+
+    .save-changes { margin-top: 32px; text-align: center; }
+    .btn {
+      padding: 14px 32px; border-radius: 14px; font-weight: 600;
+      font-size: 16px; cursor: pointer; display: inline-flex;
+      align-items: center; gap: 10px; transition: var(--transition); border: none;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white; box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
+    }
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(79, 70, 229, 0.4);
+    }
+    .btn-secondary {
+      background: #f1f5f9; color: var(--text); border: 2px solid #e2e8f0;
+      margin-left: 12px;
+    }
+    .btn-secondary:hover { background: #e2e8f0; }
+
+    /* Activity Feed */
+    .activity-feed {
+      margin-top: 40px; padding-top: 32px; border-top: 1px solid #e2e8f0;
+    }
+    .activity-item {
+      display: flex; align-items: flex-start; gap: 16px;
+      padding: 16px 0; border-bottom: 1px solid #f1f5f9;
+    }
+    .activity-icon {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: #e0e7ff; display: flex; align-items: center;
+      justify-content: center; color: var(--primary); font-size: 18px;
+      flex-shrink: 0;
+    }
+    .activity-content h4 { font-weight: 600; margin-bottom: 4px; }
+    .activity-content p { color: var(--text-light); font-size: 14px; }
+    .activity-time { color: #9ca3af; font-size: 13px; }
+
+    /* Footer */
+    footer {
+      background: #0f172a; color: #94a3b8; padding: 60px 5% 30px; margin-top: 80px;
+    }
+    .footer-content {
+      max-width: 1200px; margin: 0 auto; display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px;
+      margin-bottom: 40px;
+    }
+    .footer-column h3 { color: white; margin-bottom: 20px; font-size: 1.2rem; }
+    .footer-column ul { list-style: none; }
+    .footer-column a { color: #94a3b8; text-decoration: none; transition: var(--transition); }
+    .footer-column a:hover { color: white; }
+    .social-links { display: flex; gap: 16px; margin-top: 16px; }
+    .social-links a {
+      width: 40px; height: 40px; border-radius: 50%; background: #1e293b;
+      display: flex; align-items: center; justify-content: center;
+      transition: var(--transition);
+    }
+    .social-links a:hover { background: var(--primary); transform: translateY(-3px); }
+    .footer-bottom {
+      text-align: center; padding-top: 30px; border-top: 1px solid #1e293b;
+      color: #64748b; font-size: 0.9rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav { display: none; position: absolute; top: 100%; left: 0; width: 100%;
+            background: var(--primary); flex-direction: column; padding: 20px 5%; }
+      nav.active { display: flex; }
+      .mobile-menu { display: block; }
+      .form-grid { grid-template-columns: 1fr; }
+      .btn-secondary { margin-left: 0; margin-top: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="header-container">
+      <a href="index.html" class="logo">
+        <i class="fas fa-compass"></i> Career Compass Kenya
+      </a>
+      <nav id="nav-menu">
+        <a href="home.html">Home</a>
+        <a href="#features">Features</a>
+        <a href="chat.html">AI Chat</a>
+        <a href="recommendations.html">Recommendations</a>
+        <a href="feedback.html">Feedback</a>
+        <a href="profile.html">Profile</a>
+        <a href="#" onclick="logout()">Logout</a>
+      </nav>
+      <div class="mobile-menu" id="mobile-menu"><i class="fas fa-bars"></i></div>
+    </div>
+  </header>
+
+  <!-- Profile -->
+  <div class="profile-container">
+    <main class="profile-main">
+      <div class="profile-header">
+        <div class="profile-pic-container">
+          <div class="profile-pic" id="profilePic">JD</div>
+          <div class="edit-pic-btn"><i class="fas fa-camera"></i></div>
+        </div>
+        <div class="user-name" id="displayName">John Doe</div>
+        <div class="user-email" id="displayEmail">john@example.com</div>
+      </div>
+
+      <div class="section-header">
+        <h2 class="section-title">Personal Information</h2>
+        <button class="edit-toggle" id="editToggle">
+          <i class="fas fa-edit"></i> <span>Edit</span>
+        </button>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" placeholder="Enter your full name" disabled>
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" placeholder="you@example.com" disabled>
+        </div>
+        <div class="form-group">
+          <label for="grade">KCSE Grade</label>
+          <input type="text" id="grade" placeholder="E.g. B+, A-" disabled>
+        </div>
+        <div class="form-group">
+          <label for="location">Location</label>
+          <input type="text" id="location" placeholder="Nairobi, Kenya" disabled>
+        </div>
+        <div class="form-group">
+          <label for="bio">Short Bio</label>
+          <textarea id="bio" rows="3" placeholder="Tell us about yourself..." disabled></textarea>
+        </div>
+        <div class="form-group">
+          <label>Career Interests</label>
+          <div class="interests-input" id="interestsContainer">
+            <input type="text" class="add-interest-input" placeholder="Type interest and press Enter..." disabled>
+          </div>
+        </div>
+      </div>
+
+      <div class="save-changes" id="saveSection" style="display:none;">
+        <button class="btn btn-primary" id="saveBtn">
+          <i class="fas fa-save"></i> Save Changes
+        </button>
+        <button class="btn btn-secondary" id="cancelBtn">
+          <i class="fas fa-times"></i> Cancel
+        </button>
+      </div>
+
+      <!-- Activity Feed -->
+      <div class="activity-feed">
+        <h3 style="margin-bottom:16px;font-weight:600;">Recent Activity</h3>
+        <div class="activity-item">
+          <div class="activity-icon"><i class="fas fa-robot"></i></div>
+          <div class="activity-content">
+            <h4>Chatted with AI Coach</h4>
+            <p>Asked about Medicine at University of Nairobi</p>
+            <div class="activity-time">3 hours ago</div>
+          </div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-icon"><i class="fas fa-star"></i></div>
+          <div class="activity-content">
+            <h4>New Recommendation</h4>
+            <p>Bachelor of Medicine – 94% match</p>
+            <div class="activity-time">Yesterday</div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-column">
+        <h3>Career Compass Kenya</h3>
+        <p>AI-powered career guidance for Kenyan students from KCSE to dream career.</p>
+      </div>
+      <div class="footer-column">
+        <h3>Students</h3>
+        <ul>
+          <li><a href="chat.html">AI Career Coach</a></li>
+          <li><a href="recommendations.html">Course Recommendations</a></li>
+          <li><a href="profile.html">My Profile</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Support</h3>
+        <ul>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Career Compass Kenya. Made with love in Nairobi</p>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu
+    document.getElementById('mobile-menu').addEventListener('click', () => {
+      document.getElementById('nav-menu').classList.toggle('active');
+      const icon = document.querySelector('#mobile-menu i');
+      icon.classList.toggle('fa-bars');
+      icon.classList.toggle('fa-times');
+    });
+
+    // Default profile
+    const defaultProfile = {
+      name: "Alex Kimani",
+      email: localStorage.getItem('userEmail') || "alex@student.ke",
+      grade: "A-",
+      location: "Nairobi, Kenya",
+      bio: "KCSE 2024 graduate passionate about technology and innovation.",
+      interests: ["Software Engineering", "Data Science", "Cybersecurity", "AI & Machine Learning"]
+    };
+
+    // Load saved profile
+    const saved = JSON.parse(localStorage.getItem('career_compass_profile')) || {};
+    const profile = { ...defaultProfile, ...saved };
+
+    // Populate fields
+    document.getElementById('name').value = profile.name;
+    document.getElementById('email').value = profile.email;
+    document.getElementById('grade').value = profile.grade;
+    document.getElementById('location').value = profile.location;
+    document.getElementById('bio').value = profile.bio;
+    document.getElementById('displayName').textContent = profile.name;
+    document.getElementById('displayEmail').textContent = profile.email;
+
+    // Avatar initials
+    const initials = profile.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0,2);
+    document.getElementById('profilePic').textContent = initials;
+
+    // Interests
+    const interestsContainer = document.getElementById('interestsContainer');
+    const addInput = interestsContainer.querySelector('.add-interest-input');
+    profile.interests.forEach(interest => {
+      const tag = document.createElement('div');
+      tag.className = 'skill-tag removable';
+      tag.innerHTML = interest + '<span>×</span>';
+      tag.querySelector('span').onclick = () => tag.remove();
+      interestsContainer.insertBefore(tag, addInput);
+    });
+
+    // Edit mode
+    const editToggle = document.getElementById('editToggle');
+    const inputs = document.querySelectorAll('input, textarea');
+    const saveSection = document.getElementById('saveSection');
+
+    editToggle.addEventListener('click', () => {
+      const isEditing = !editToggle.classList.contains('active');
+      editToggle.classList.toggle('active');
+      editToggle.innerHTML = isEditing ?
+        '<i class="fas fa-save"></i> <span>Editing</span>' :
+        '<i class="fas fa-edit"></i> <span>Edit</span>';
+
+      inputs.forEach(i => i.disabled = !isEditing);
+      addInput.disabled = !isEditing;
+      saveSection.style.display = isEditing ? 'block' : 'none';
+    });
+
+    // Add interest
+    addInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && e.target.value.trim()) {
+        const tag = document.createElement('div');
+        tag.className = 'skill-tag removable';
+        tag.innerHTML = e.target.value.trim() + '<span>×</span>';
+        tag.querySelector('span').onclick = () => tag.remove();
+        interestsContainer.insertBefore(tag, addInput);
+        e.target.value = '';
+      }
+    });
+
+    // Save
+    document.getElementById('saveBtn').addEventListener('click', () => {
+      const updated = {
+        name: document.getElementById('name').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        grade: document.getElementById('grade').value.trim(),
+        location: document.getElementById('location').value.trim(),
+        bio: document.getElementById('bio').value.trim(),
+        interests: Array.from(interestsContainer.querySelectorAll('.skill-tag')).map(t => t.textContent.replace('×','').trim())
+      };
+      localStorage.setItem('career_compass_profile', JSON.stringify(updated));
+      localStorage.setItem('userEmail', updated.email);
+      location.reload();
+    });
+
+    document.getElementById('cancelBtn').addEventListener('click', () => location.reload());
+
+    // Logout
+    function logout() {
+      localStorage.clear();
+      window.location.href = 'login.html';
+    }
+  </script>
+</body>
+</html>
